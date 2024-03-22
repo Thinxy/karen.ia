@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles/index.css') }}"
+    />
+    <title>KarenGPT - {{ topic }}</title>
+    <style>
+      /* Estilos do container */
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #474747;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+      }
+
+      .container h1 {
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      .response-container {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+      }
+
+      .response {
+        font-family: Arial, sans-serif;
+        white-space: pre-wrap;
+        margin-top: 10px;
+        text-align: left;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .user-response {
+        color: #007bff;
+        background-color: #cce5ff;
+      }
+
+      .chatbot-response {
+        color: #28a745;
+        background-color: #d4edda;
+      }
+
+      /* Estilos do perfil */
+      .profile-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .profile-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+      }
+
+      /* Estilos do botão */
+      .back-button {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .back-button a {
+        text-decoration: none;
+        color: white;
+        background-color: #007bff;
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+
+      .back-button a:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="profile-container">
+        <img
+          src="{{ url_for('static', filename='img/logoImage.png') }}"
+          alt="Imagem de Perfil"
+          class="profile-img"
+        />
+        <h1>KarenGPT - Tópico: {{ topic }}</h1>
+      </div>
+      <div class="response-container" id="response-container">
+        {% for user_message, chatbot_message in messages %}
+        <div class="response user-response">
+          <strong>Você:</strong> {{ user_message[0] }}
+        </div>
+        <div class="response chatbot-response">
+          <strong>KarenGPT:</strong> {{ chatbot_message[0] }}
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="back-button">
+        <a href="/">Voltar à Página Inicial</a>
+      </div>
+    </div>
+  </body>
+</html>

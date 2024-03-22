@@ -1,0 +1,160 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #333232;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #474747;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+form {
+  text-align: center;
+}
+
+input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #565555;
+  color: white;
+}
+
+input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.response-container.typing-complete .typing::after {
+  display: none;
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #000;
+  }
+}
+
+.response {
+  font-family: Arial, sans-serif;
+  white-space: pre-wrap;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.typing-container {
+  display: inline-block;
+}
+
+.typing {
+  white-space: pre-wrap;
+  animation: typing-animation 3s steps(40) infinite;
+}
+
+@keyframes typing-animation {
+  to {
+    width: 100%;
+  }
+}
+
+.pre {
+  font-family: Arial, sans-serif;
+  white-space: pre-wrap;
+  display: inline-block;
+}
+
+.response-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ABABAB;
+  border-radius: 5px;
+  max-width: 100%;
+}
+
+.response pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.container {
+  padding: 20px;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="submit"] {
+  margin-top: 10px;
+}
+
+.response-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.response pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.topic-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.topic-button:hover {
+  background-color: #0056b3;
+}

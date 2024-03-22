@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles/index.css') }}"
+    />
+    <title>KarenGPT</title>
+    <style>
+      /* Estilos da barra lateral */
+      .sidebar {
+        width: 200px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        padding: 20px;
+        background-color: #f0f0f0;
+      }
+
+      /* Estilos do conteúdo principal */
+      .main-content {
+        margin-left: 220px;
+        padding: 20px;
+      }
+
+      /* Estilos do botão de apagar tópicos */
+      .delete-button {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .delete-button button {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .delete-button button:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h2>Últimos Tópicos Pesquisados</h2>
+      <ul>
+        {% for topic in topics %}
+        <li>
+          <a href="{{ url_for('view_messages', topic=topic[0]) }}"
+            >{{ topic }}</a
+          >
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="delete-button">
+        <form action="{{ url_for('delete_topics') }}" method="post">
+          <button type="submit">Apagar Últimos Tópicos</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="container">
+        <div
+          class="profile-container"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <img
+            src="{{ url_for('static', filename='img/logoImage.png') }}"
+            alt="Imagem de Perfil"
+            class="profile-img"
+            style="align-items: center"
+          />
+          <h1 style="text-align: center">KarenGPT</h1>
+        </div>
+
+        <div class="response-container" id="response-container">
+          <div class="response" id="response"></div>
+        </div>
+        <form id="chat-form">
+          <input
+            type="text"
+            id="user-input"
+            name="prompt"
+            placeholder="Digite sua mensagem..."
+          />
+          <input type="submit" value="Enviar" />
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function isTopicDefined() {
+        return sessionStorage.getItem("topic") !== null;
+      }
+
+      function setTopic() {
+        sessionStorage.setItem(
+          "topic",
+          document.getElementById("user-input").value
+        );
+      }
+
+      function removeTopic() {
+        sessionStorage.removeItem("topic");
+      }
+
+      document
+        .getElementById("chat-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          var userInput = document.getElementById("user-input").value;
+          document.getElementById("user-input").value = "";
+
+          var userDiv = document.createElement("div");
+          userDiv.className = "response";
+          userDiv.innerHTML = "<strong>Você:</strong> " + userInput;
+          document.getElementById("response-container").appendChild(userDiv);
+
+          if (!isTopicDefined()) {
+            fetch("/responder", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: "prompt=" + encodeURIComponent(userInput),
+            })
+              .then((response) => response.text())
+              .then((data) => {
+                var botDiv = document.createElement("div");
+                botDiv.className = "response";
+                var typingContainer = document.createElement("div");
+                typingContainer.className = "typing-container";
+                var typingSpan = document.createElement("span");
+                typingSpan.className = "typing";
+                typingSpan.innerHTML = "<strong>KarenGPT:</strong> ";
+                typingContainer.appendChild(typingSpan);
+                botDiv.appendChild(typingContainer);
+                document
+                  .getElementById("response-container")
+                  .appendChild(botDiv);
+                typeWriter(data, typingSpan, botDiv);
+              })
+              .catch((error) => console.error("Erro:", error));
+
+            setTopic();
+          } else {
+            fetch("/responder", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: "prompt=" + encodeURIComponent(userInput),
+            })
+              .then((response) => response.text())
+              .then((data) => {
+                var botDiv = document.createElement("div");
+                botDiv.className = "response";
+                var typingContainer = document.createElement("div");
+                typingContainer.className = "typing-container";
+                var typingSpan = document.createElement("span");
+                typingSpan.className = "typing";
+                typingSpan.innerHTML = "<strong>KarenGPT:</strong> ";
+                typingContainer.appendChild(typingSpan);
+                botDiv.appendChild(typingContainer);
+                document
+                  .getElementById("response-container")
+                  .appendChild(botDiv);
+                typeWriter(data, typingSpan, botDiv);
+              })
+              .catch((error) => console.error("Erro:", error));
+          }
+        });
+
+      function typeWriter(text, spanElement, botDiv) {
+        var i = 0;
+        var speed = 50;
+        function type() {
+          if (i < text.length) {
+            spanElement.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+          } else {
+            botDiv.classList.add("typing-complete");
+          }
+        }
+
+        type();
+      }
+    </script>
+  </body>
+</html>
